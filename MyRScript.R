@@ -13,6 +13,10 @@ subset(blpw.all1, band == 197052092)
 blpw.all <- blpw.all %>%
   mutate(date = make_date(year, month, day))
 
+# Create day.month column <- <- 
+blpw.all1 %>%
+  format(as.Date(date), "%m-%d")
+
 # STEP 2: Remove unnecessary columns
 blpw.all <- blpw.all %>%
   select(location, band, mass, recap, year, day, month, date)
@@ -26,3 +30,5 @@ blpw.all <- blpw.all %>%
 blpw.all <- blpw.all %>%
   group_by(band) %>%
   mutate(DeltaMass = c(0, diff(mass)))
+
+# Attempt to graph
