@@ -1,7 +1,7 @@
 library(tidyverse)
 library(lubridate)
 
-blpw.all <- original.df
+original.df <- blpw.all 
 subset(blpw.all1, band == 197052092)
 
 # STEP 1: Remove rows with only one mass value per band number (removes birds that were not recaptured and birds that were recaptured but with only one observation present)
