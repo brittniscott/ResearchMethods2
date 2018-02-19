@@ -21,7 +21,7 @@ blpw.all <- blpw.all %>%
 # STEP 4: Create 'julian' day column 
 blpw.all$julian <- yday(blpw.all$date)
 
-# STEP 5: Create column of delta mass values
+# STEP 5: Create column of cumulative delta mass values
 blpw.all <- blpw.all %>%
   group_by(band, year) %>%
   mutate(deltamass = c(0, diff(mass))) %>%
@@ -36,6 +36,7 @@ ggplot(data = blpw.all, mapping = aes(x = julian, y = cumdelta, colour = band)) 
   ylab("Mass (in grams, relative to capture date)") +
   xlab("Time of Year") +
   scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%b"))
+
 
 #### Month labels are off in graph
   
