@@ -1,6 +1,7 @@
 library(tidyverse)
 library(lubridate)
 
+blpw.all <- original.df 
 original.df <- blpw.all 
 subset(blpw.all1, band == 197052092)
 
@@ -22,7 +23,7 @@ blpw.all$julian <- yday(blpw.all$date)
 
 # STEP 5: Create column of delta mass values
 blpw.all <- blpw.all %>%
-  group_by(band) %>%
+  group_by(band, year) %>%
   mutate(deltamass = c(0, diff(mass))) %>%
   mutate(cumdelta = cumsum(deltamass))
 
@@ -36,8 +37,6 @@ ggplot(data = blpw.all, mapping = aes(x = julian, y = cumdelta, colour = band)) 
   xlab("Time of Year") +
   scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%b"))
 
-
-#### Some deltamass values are off
 #### Month labels are off in graph
   
 
