@@ -28,17 +28,34 @@ blpw.all <- blpw.all %>%
   mutate(cumdelta = cumsum(deltamass))
 
 # STEP 6: Create graph mapping deltamass by date
-ggplot(data = blpw.all, mapping = aes(x = julian, y = cumdelta, colour = band)) +
+ggplot(data = blpw.all, mapping = aes(x = (yday(date)), y = cumdelta, colour = band)) +
   geom_point() +
   geom_line() +
   theme(legend.position = "none") +
   facet_wrap(~ location) +
   ylab("Mass (in grams, relative to capture date)") +
-  xlab("Time of Year") +
-  scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%b"))
+  xlab("Time of Year")
 
 
-#### Month labels are off in graph
+
   
-
+  scale_x_date(date_labels = "%b %d")
+  
+   scale_x_date(labels = date_format("%Y-%m-%d"))
+  ?scale_x_date
+  scale_x_discrete(labels = month)
+  
+  scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%b"))
+  
+  
+#### Month labels are off in graph _ IS IT POSSIBLE TO GRAPH 'MONTH' COLUMN SEPERATELY ON X AXIS
+  
+  ggplot(data = blpw.all, mapping = aes(x = (julian), y = cumdelta, colour = band)) +
+    geom_point() +
+    geom_line() +
+    theme(legend.position = "none") +
+    facet_wrap(~ location) +
+    ylab("Mass (in grams, relative to capture date)") +
+    xlab("Time of Year") +
+    scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%b"))
   
