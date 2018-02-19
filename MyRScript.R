@@ -37,7 +37,6 @@ ggplot(data = blpw.all, mapping = aes(x = julian, y = cumdelta, colour = band)) 
   scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%b"))
 
 
-
 #### Some deltamass values are off
 #### Month labels are off in graph
   
