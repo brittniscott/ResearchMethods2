@@ -1,37 +1,33 @@
 library(tidyverse)
 library(lubridate)
 
-# only time of year matters, not what year
-
-blpw.all1 <- blpw.all
-
+blpw.all <- original.df
 subset(blpw.all1, band == 197052092)
 
-### MAKE A DAY OF YEAR COLUMN AND RELABEL IT WITH MONTHS IN THE GRAPH
-
-# STEP 1: Combine all date information into one column named 'date'
-blpw.all <- original.df %>%
-  mutate(date = make_date(month, day))
-
-# STEP 2: Create 'julian' day column 
-blpw.all$julian <- yday(blpw.all$date)
-
-# STEP 3: Remove unnecessary columns
-blpw.all <- blpw.all %>%
-  select(location, band, mass, recap, year, day, month, date)
-
-# STEP 4: Remove rows with only one mass value per band number (removes birds that were not recaptured and birds that were recaptured but with only one observation present)
+# STEP 1: Remove rows with only one mass value per band number (removes birds that were not recaptured and birds that were recaptured but with only one observation present)
 blpw.all <- blpw.all %>% 
   group_by(band) %>% 
   filter(n() >= 2)
 
+# STEP 2: Tidy by removing some unnecessary columns
+blpw.all <- blpw.all %>%
+  select(location, band, mass, year, day, month)
+
+# STEP 3: Combine all date information into one column named 'date'
+blpw.all <- blpw.all %>%
+  mutate(date = make_date(year, month, day))
+
+# STEP 4: Create 'julian' day column 
+blpw.all$julian <- yday(blpw.all$date)
+
 # STEP 5: Create column of delta mass values
 blpw.all <- blpw.all %>%
   group_by(band) %>%
-  mutate(deltamass = c(0, diff(mass)))
+  mutate(deltamass = c(0, diff(mass))) %>%
+  mutate(cumdelta = cumsum(deltamass))
 
-# STEP 6: Create graph mapping DeltaMass (grouped by band#) by date? Or is it using intervals of time??
-ggplot(data = blpw.all, mapping = aes(x = julian, y = DeltaMass, colour = band)) +
+# STEP 6: Create graph mapping deltamass by date
+ggplot(data = blpw.all, mapping = aes(x = julian, y = cumdelta, colour = band)) +
   geom_point() +
   geom_line() +
   theme(legend.position = "none") +
@@ -39,6 +35,11 @@ ggplot(data = blpw.all, mapping = aes(x = julian, y = DeltaMass, colour = band))
   ylab("Mass (in grams, relative to capture date)") +
   xlab("Time of Year") +
   scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%b"))
+
+
+
+#### Some deltamass values are off
+#### Month labels are off in graph
   
 
   
