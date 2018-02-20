@@ -40,7 +40,6 @@ ggplot(data = blpw.all, mapping = aes(x = (yday(date)), y = cumdelta, colour = b
 
   
   scale_x_date(date_labels = "%b %d")
-  
    scale_x_date(labels = date_format("%Y-%m-%d"))
   ?scale_x_date
   scale_x_discrete(labels = month)
