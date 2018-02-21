@@ -7,11 +7,7 @@ blpw.all <- blpw.all %>%
   group_by(band) %>% 
   filter(n() >= 2)
 
-# STEP 2: Tidy by removing some unnecessary columns
-blpw.all <- blpw.all %>%
-  select(location, band, mass, year, day, month)
-
-# STEP 3: Combine all date information into one column named 'date'
+# STEP 2: Combine all date information into one column named 'date'
 blpw.all <- blpw.all %>%
   mutate(date = make_date(year, month, day))
 
@@ -20,6 +16,10 @@ blpw.all <- blpw.all %>%
   group_by(band, year) %>%
   mutate(deltamass = c(0, diff(mass))) %>%
   mutate(cumdelta = cumsum(deltamass))
+
+# STEP 5: Tidy by removing some unnecessary columns
+blpw.all <- blpw.all %>%
+  select(location, band, year, date, cumdelta)
 
 # STEP 5: Create graph mapping deltamass by date
 ggplot(data = blpw.all, mapping = aes(x = (yday(date)), y = cumdelta, colour = band)) +
@@ -30,4 +30,5 @@ ggplot(data = blpw.all, mapping = aes(x = (yday(date)), y = cumdelta, colour = b
   ylab("Mass (in grams, relative to capture date)") +
   xlab("Time of Year") +
   scale_x_continuous(breaks = c(213, 244, 274, 305), labels = function(x) format(as.Date(as.character(x), "%j"), "%b"))
+
   
