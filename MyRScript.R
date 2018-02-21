@@ -49,8 +49,7 @@ ggplot(data = blpw.all, mapping = aes(x = (yday(date)), y = cumdelta, colour = b
   scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%b"))
 
   ?scale_x_continuous
-#### Month labels are off in graph _ IS IT POSSIBLE TO GRAPH 'MONTH' COLUMN SEPERATELY ON X AXIS
-  
+
   ggplot(data = blpw.all, mapping = aes(x = (julian), y = cumdelta, colour = band)) +
     geom_point() +
     geom_line() +
