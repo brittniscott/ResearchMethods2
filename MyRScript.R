@@ -10,13 +10,13 @@ blpw.all <- blpw.all %>%
 blpw.all <- blpw.all %>%
   mutate(date = make_date(year, month, day))
 
-# STEP 4: Create column of cumulative delta mass values
+# STEP 3: Create column of cumulative delta mass values
 blpw.all <- blpw.all %>%
   group_by(band, year) %>%
   mutate(deltamass = c(0, diff(mass))) %>%
   mutate(cumdelta = cumsum(deltamass))
 
-# STEP 5: Tidy by removing some unnecessary columns
+# STEP 4: Tidy by removing some unnecessary columns
 blpw.all <- blpw.all %>%
   select(location, band, year, date, cumdelta)
 
