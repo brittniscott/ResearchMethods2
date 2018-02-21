@@ -1,6 +1,5 @@
 library(tidyverse)
 library(lubridate)
-library(scales)
 
 # STEP 1: Remove rows with only one mass value per band number (removes birds that were not recaptured and birds that were recaptured but with only one observation present)
 blpw.all <- blpw.all %>% 
