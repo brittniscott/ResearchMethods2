@@ -1,9 +1,11 @@
 library(tidyverse)
 library(lubridate)
+library(scales)
 
-blpw.all <- original.df 
+blpw.all1 <- blpw.all 
 original.df <- blpw.all 
-subset(blpw.all1, band == 197052092)
+subset(blpw.all, band == 197052092)
+
 
 # STEP 1: Remove rows with only one mass value per band number (removes birds that were not recaptured and birds that were recaptured but with only one observation present)
 blpw.all <- blpw.all %>% 
@@ -34,19 +36,19 @@ ggplot(data = blpw.all, mapping = aes(x = (yday(date)), y = cumdelta, colour = b
   theme(legend.position = "none") +
   facet_wrap(~ location) +
   ylab("Mass (in grams, relative to capture date)") +
-  xlab("Time of Year")
-
-
-
-  
-  scale_x_date(date_labels = "%b %d")
-   scale_x_date(labels = date_format("%Y-%m-%d"))
-  ?scale_x_date
-  scale_x_discrete(labels = month)
-  
+  xlab("Time of Year") +
   scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%b"))
   
+#current codes I am working with
+  scale_x_date(breaks = "1 month", labels = date_format("%b"))
+
+  scale_x_date(labels = date_format('%b'))
+
+  scale_x_date(breaks = date_breaks("months"), labels = date_format("%j"))
   
+  scale_x_continuous(labels = function(x) format(as.Date(as.character(x), "%j"), "%b"))
+
+  ?scale_x_continuous
 #### Month labels are off in graph _ IS IT POSSIBLE TO GRAPH 'MONTH' COLUMN SEPERATELY ON X AXIS
   
   ggplot(data = blpw.all, mapping = aes(x = (julian), y = cumdelta, colour = band)) +
