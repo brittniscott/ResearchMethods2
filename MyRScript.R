@@ -34,6 +34,6 @@ ggplot(data = blpw.all, mapping = aes(x = (yday(date)), y = cumdelta, colour = b
   xlab("Time of Year") +
   scale_x_continuous(breaks = c(213, 227, 244, 258, 274, 288), 
                      labels = function(x) format(as.Date(as.character(x), "%j"), "%d-%b")) +
-  theme(axis.text.x=element_text(angle=90,hjust=1))
+  theme(axis.text.x=element_text(angle = 90, hjust = 1))
 
   
